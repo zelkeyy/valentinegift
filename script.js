@@ -4,7 +4,7 @@ const CONFIG = {
     yesButton: "MAU",
     noButton: "GAMAU",
     noEscapeTexts: ["ayoo mah dong", "pliss, mau yaa", "ahh pokoknya aku anggap kaka mau"],
-    confirmTitle: "YEAAAY! Kaka Beneran Mau 💗",
+    confirmTitle: "Yeayyy! Kaka Beneran Mau 💗",
     confirmText: "Mulai dari sekarang kaka resmi jadi…",
     badgeText: "My Valentine",
     nextButton: "Lanjut ",
@@ -495,3 +495,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
+
