@@ -368,71 +368,130 @@ document.addEventListener('DOMContentLoaded', () => {
     initMouseTrail();
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
-  const bgMusic = document.getElementById("bgMusic");
-  const yesBtn = document.getElementById("yesBtn"); // ganti sesuai id tombol pertama lu
+
+
+  const music = document.getElementById("backgroundMusic");
 
   let musicStarted = false;
-  let fadeInterval = null;
 
-  bgMusic.volume = 0; // mulai dari 0 biar aman
+  let fadeInterval;
 
-  function fadeIn(audio, duration = 400) {
+
+
+  function fadeIn(audio, duration = 500) {
+
     clearInterval(fadeInterval);
+
+
 
     audio.volume = 0;
 
-    audio.play().catch(() => {});
 
-    const stepTime = 20;
-    const steps = duration / stepTime;
-    const volumeStep = 0.7 / steps; // target volume 0.7 (lebih aman dari 1)
 
-    fadeInterval = setInterval(() => {
-      if (audio.volume < 0.7) {
-        audio.volume = Math.min(audio.volume + volumeStep, 0.7);
-      } else {
-        clearInterval(fadeInterval);
-      }
-    }, stepTime);
+    audio.play().then(() => {
+
+      const stepTime = 20;
+
+      const steps = duration / stepTime;
+
+      const volumeStep = 0.7 / steps;
+
+
+
+      fadeInterval = setInterval(() => {
+
+        if (audio.volume < 0.7) {
+
+          audio.volume = Math.min(audio.volume + volumeStep, 0.7);
+
+        } else {
+
+          clearInterval(fadeInterval);
+
+        }
+
+      }, stepTime);
+
+    }).catch(err => {
+
+      console.log("Play gagal:", err);
+
+    });
+
   }
 
-  function fadeOut(audio, duration = 400) {
+
+
+  function fadeOut(audio, duration = 500) {
+
     clearInterval(fadeInterval);
 
+
+
     const stepTime = 20;
+
     const steps = duration / stepTime;
+
     const volumeStep = audio.volume / steps;
 
+
+
     fadeInterval = setInterval(() => {
+
       if (audio.volume > 0.05) {
+
         audio.volume = Math.max(audio.volume - volumeStep, 0);
+
       } else {
+
         audio.pause();
-        audio.volume = 0;
+
         clearInterval(fadeInterval);
+
       }
+
     }, stepTime);
+
   }
 
-  // 🎵 Play saat klik pertama (contoh tombol Yes)
-  yesBtn.addEventListener("click", () => {
-    if (!musicStarted) {
-      fadeIn(bgMusic);
-      musicStarted = true;
-    }
-  });
 
-  // 👁 Pause saat pindah tab
-  document.addEventListener("visibilitychange", () => {
+
+  document.addEventListener("click", function start() {
+
+    if (musicStarted) return;
+
+
+
+    musicStarted = true;
+
+    fadeIn(music);
+
+
+
+  }, { once: true });
+
+
+
+  document.addEventListener("visibilitychange", function () {
+
     if (!musicStarted) return;
 
+
+
     if (document.hidden) {
-      fadeOut(bgMusic);
+
+      fadeOut(music);
+
     } else {
-      fadeIn(bgMusic);
+
+      fadeIn(music);
+
     }
+
   });
+
+
 
 });
